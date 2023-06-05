@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-//Cantidad de alumnos
+// Cantidad de alumnos
 #define alumnos 23
-//Cantidad de progresos
+// Cantidad de progresos
 #define progresos 3
 
-//Función que crea la matriz
+// Función que crea la matriz
 int **crearMatriz()
 {
     int **matriz = calloc(progresos, sizeof(int *));
@@ -16,10 +16,11 @@ int **crearMatriz()
         matriz[i] = calloc(alumnos, sizeof(int));
     }
 
+    asignarValoresMatriz(matriz);
     return matriz;
 }
 
-//Función que asigna valores aleatorios a la matriz
+// Función que asigna valores aleatorios a la matriz
 void asignarValoresMatriz(int **matriz)
 {
     for (int i = 0; i < progresos; i++)
@@ -31,7 +32,7 @@ void asignarValoresMatriz(int **matriz)
     }
 }
 
-//Función que imprime la matriz
+// Función que imprime la matriz
 void imprimirMatriz(int **matriz)
 {
     for (int i = 0; i < progresos; i++)
@@ -42,7 +43,29 @@ void imprimirMatriz(int **matriz)
         }
         printf("\n");
     }
+    printf("\n");
 }
+
+// Función que determina el promedio de alumnos por semestre y los imprime
+void promedioSemestre(int **matriz)
+{
+    float *promedios = calloc(alumnos, sizeof(float));
+    
+    for (int i = 0; i < alumnos; i++)
+    {
+        float suma = matriz[0][i] + matriz[1][i] + matriz[2][i];
+        suma /= 3;
+        promedios[i] = suma;
+    }
+
+    printf("Promedio de cada alumno por semestre:\n");
+    for (int i = 0; i < alumnos; i++)
+    {
+        printf("E%i: %f\n", i + 1, promedios[i]);
+    }
+
+    free(promedios);
+} 
 
 int main()
 {
@@ -50,7 +73,9 @@ int main()
 
     int **matriz = crearMatriz();
 
-    asignarValoresMatriz(matriz);
-
     imprimirMatriz(matriz);
+
+    promedioSemestre(matriz);
+
+    free(matriz);
 }
